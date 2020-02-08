@@ -10,16 +10,18 @@ public class Turn {
 	private int status;
 	private Client client;
 
+	public Turn(String identificator, int status, Client client) {
+		this.identificator = identificator;
+		this.status = status;
+		this.client = client;
+	}
+
 	public Client getClient() {
 		return client;
 	}
 
 	public void setClient(Client client) {
 		this.client = client;
-	}
-
-	public Turn(String identificator) {
-		this.identificator = identificator;
 	}
 
 	public String getIdentificator() {

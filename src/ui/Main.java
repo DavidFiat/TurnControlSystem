@@ -18,7 +18,7 @@ public class Main {
 	private void showMenu() {
 		int option = 0;
 		while (option != 9) {
-
+			option = 0;
 			System.out.println(" ");
 			System.out.println(" 1.");
 			System.out.println(" 2.");
@@ -40,8 +40,6 @@ public class Main {
 			switch (option) {
 
 			case (1):
-				turnControl.createTurns();
-				break;
 			case (2):
 
 			case (3):
