@@ -9,23 +9,13 @@ public class Client {
 	private String phone;
 	private String address;
 
-	public Client(String typeOfDocument, String iD, String name, String surnames, String phone, String address) {
-		super();
+	public Client(String typeOfDocument, String ID, String name, String surnames, String phone, String address) {
 		this.typeOfDocument = typeOfDocument;
-		ID = iD;
+		this.ID = ID;
 		this.name = name;
 		this.surnames = surnames;
 		this.phone = phone;
 		this.address = address;
-	}
-
-	public Client(String typeOfDocument, String iD, String name, String surnames) {
-		super();
-		this.typeOfDocument = typeOfDocument;
-		ID = iD;
-		this.name = name;
-		this.surnames = surnames;
-
 	}
 
 	public String getTypeOfDocument() {
@@ -40,8 +30,8 @@ public class Client {
 		return ID;
 	}
 
-	public void setID(String iD) {
-		ID = iD;
+	public void setID(String ID) {
+		this.ID = ID;
 	}
 
 	public String getName() {

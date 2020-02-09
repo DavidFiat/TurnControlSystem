@@ -17,7 +17,7 @@ public class Main {
 		m.showMenu();
 	}
 
-	private void showMenu() {
+	public void showMenu() {
 		int option = 0;
 		while (option != 5) {
 			option = 0;
