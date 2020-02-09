@@ -38,13 +38,29 @@ public class TurnControl {
 
 	public Client searchClient(String ID, String typeOfDocument) {
 		Client a = null;
-		for (Client s : clients) {
-			if (s.getID().equals(ID) && s.getTypeOfDocument().equals(typeOfDocument)) {
-				a = s;
+		for (int i = 0; i < clients.size(); i++) {
+			if (clients.get(i).getID().equals(ID) && clients.get(i).getTypeOfDocument().equals(typeOfDocument)) {
+				a = clients.get(i);
 			}
 		}
 		return a;
 
+	}
+
+	public char getCurrentLetter() {
+		return currentLetter;
+	}
+
+	public void setCurrentLetter(char currentLetter) {
+		this.currentLetter = currentLetter;
+	}
+
+	public int getCurrentNumber() {
+		return currentNumber;
+	}
+
+	public void setCurrentNumber(int currentNumber) {
+		this.currentNumber = currentNumber;
 	}
 
 	public boolean addClient(Client c) throws RepeatedClientException, RequiredFieldsException {
@@ -62,25 +78,40 @@ public class TurnControl {
 
 	}
 
-	public String assignTurn(Client c) {
+	public boolean pendingTurn(Client c) {
+		boolean finded = false;
+		boolean hasTurn = false;
+		for (int i = 0; i < turns.size() && !finded; i++) {
+			if (turns.get(i).getClient().equals(c) && turns.get(i).getStatus() == Turn.PENDING) {
+				finded = true;
+				hasTurn = true;
+			}
+		}
+		return hasTurn;
+	}
+
+	public String assignTurn(Client c, String time) {
 		String currentTurn = "";
-		if (currentNumber < 10) {
-			currentTurn = currentLetter + "0" + currentNumber;
-		} else {
-			currentTurn = "" + currentLetter + currentNumber;
-		}
-		Turn a = new Turn(currentTurn, Turn.PENDING, c);
-		turns.add(a);
 
-		currentNumber++;
-		if (currentNumber == 100) {
-			currentNumber = 0;
-			currentLetter++;
-		}
-		if (currentLetter == 91) {
-			currentLetter = 65;
-		}
+		if (!pendingTurn(c)) {
+			if (currentNumber < 10) {
+				currentTurn = currentLetter + "0" + currentNumber;
+			} else {
+				currentTurn = "" + currentLetter + currentNumber;
+			}
+			Turn a = new Turn(currentTurn, Turn.PENDING, time, c);
+			turns.add(a);
 
+			currentNumber++;
+			if (currentNumber == 100) {
+				currentNumber = 0;
+				currentLetter++;
+			}
+			if (currentLetter == 91) {
+				currentLetter = 65;
+			}
+
+		}
 		return currentTurn;
 
 	}

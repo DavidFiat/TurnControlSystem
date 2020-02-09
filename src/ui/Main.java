@@ -19,7 +19,7 @@ public class Main {
 
 	private void showMenu() {
 		int option = 0;
-		while (option != 9) {
+		while (option != 5) {
 			option = 0;
 			System.out.println(" Welcome to the turn control system.");
 			System.out.println(" 1. To add a new client.");
@@ -55,7 +55,7 @@ public class Main {
 				try {
 					registered = turnControl.addClient(c);
 				} catch (RepeatedClientException | RequiredFieldsException e) {
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 				if (registered) {
 					System.out.println("The client was added.");
@@ -64,35 +64,43 @@ public class Main {
 				}
 				break;
 			case (2):
+				System.out.println("Write the actual time ( example: 12:24/23:12).");
+				String time = reader.nextLine();
 				System.out.println("Client´s type of document.");
 				String t = reader.nextLine();
 				System.out.println("Client´s number of document.");
 				String number = reader.nextLine();
-				Client client = turnControl.searchClient(t, number);
+				Client client = turnControl.searchClient(number, t);
 				if (client == null) {
 					System.out.println("The client does not exist.");
 				} else {
-					System.out.println("Do you desire to assign a turn to this client?");
-					System.out.println("Name: " + client.getName());
-					System.out.println("Surname: " + client.getSurnames());
-					System.out.println("Phone: " + client.getPhone());
-
-					System.out.println("1) Yes.");
-					System.out.println("2) No.");
-					int opt = 0;
-					try {
-						opt = reader.nextInt();
-						reader.nextLine();
-					} catch (InputMismatchException i) {
-						reader.nextLine();
-						System.out.println("Please type a correct character");
-					}
-					if (opt == 1) {
-						String turn = turnControl.assignTurn(client);
-						System.out.println("The turn assignated to" + " " + client.getName() + " "
-								+ client.getSurnames() + " is: " + turn);
-					} else if (opt == 2) {
+					if (turnControl.assignTurn(client, time).equals("")) {
+						System.out
+								.println("The client has been assigned to another turn and the turn is still pending.");
 						break;
+					} else {
+						System.out.println("Do you desire to assign a turn to this client?");
+						System.out.println("Name: " + client.getName());
+						System.out.println("Surname: " + client.getSurnames());
+						System.out.println("Phone: " + client.getPhone());
+
+						System.out.println("1) Yes.");
+						System.out.println("2) No.");
+						int opt = 0;
+						try {
+							opt = reader.nextInt();
+							reader.nextLine();
+						} catch (InputMismatchException i) {
+							reader.nextLine();
+							System.out.println("Please type a correct character");
+						}
+						if (opt == 1) {
+							String turn = turnControl.assignTurn(client, time);
+							System.out.println("The turn assignated to" + " " + client.getName() + " "
+									+ client.getSurnames() + " is: " + turn);
+						} else if (opt == 2) {
+							break;
+						}
 					}
 				}
 				break;
