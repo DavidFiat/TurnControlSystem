@@ -3,6 +3,8 @@ package ui;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import customExceptions.RepeatedClientException;
+import customExceptions.RequiredFieldsException;
 import model.*;
 
 public class Main {
@@ -19,16 +21,12 @@ public class Main {
 		int option = 0;
 		while (option != 9) {
 			option = 0;
-			System.out.println(" ");
-			System.out.println(" 1.");
-			System.out.println(" 2.");
-			System.out.println(" 3.");
-			System.out.println(" 4.");
-			System.out.println(" 5.");
-			System.out.println(" 6.");
-			System.out.println(" 7.");
-			System.out.println(" 8.");
-			System.out.println(" 9. To exit");
+			System.out.println(" Welcome to the turn control system.");
+			System.out.println(" 1. To add a new client.");
+			System.out.println(" 2. To register a turn.");
+			System.out.println(" 3. To attend a turn. ");
+			System.out.println(" 4. To finalize a turn. ");
+			System.out.println(" 5. To exit.");
 
 			try {
 				option = reader.nextInt();
@@ -40,21 +38,89 @@ public class Main {
 			switch (option) {
 
 			case (1):
+				System.out.println("Type of document.");
+				String type = reader.nextLine();
+				System.out.println("Number of document.");
+				String ID = reader.nextLine();
+				System.out.println("Names.");
+				String name = reader.nextLine();
+				System.out.println("Surnames.");
+				String surnames = reader.nextLine();
+				System.out.println("Phone.");
+				String phone = reader.nextLine();
+				System.out.println("Address.");
+				String address = reader.nextLine();
+				Client c = new Client(type, ID, name, surnames, phone, address);
+				boolean registered = false;
+				try {
+					registered = turnControl.addClient(c);
+				} catch (RepeatedClientException | RequiredFieldsException e) {
+					e.printStackTrace();
+				}
+				if (registered) {
+					System.out.println("The client was added.");
+				} else {
+					System.out.println("The client was not added.");
+				}
+				break;
 			case (2):
+				System.out.println("Client´s type of document.");
+				String t = reader.nextLine();
+				System.out.println("Client´s number of document.");
+				String number = reader.nextLine();
+				Client client = turnControl.searchClient(t, number);
+				if (client == null) {
+					System.out.println("The client does not exist.");
+				} else {
+					System.out.println("Do you desire to assign a turn to this client?");
+					System.out.println("Name: " + client.getName());
+					System.out.println("Surname: " + client.getSurnames());
+					System.out.println("Phone: " + client.getPhone());
 
+					System.out.println("1) Yes.");
+					System.out.println("2) No.");
+					int opt = 0;
+					try {
+						opt = reader.nextInt();
+						reader.nextLine();
+					} catch (InputMismatchException i) {
+						reader.nextLine();
+						System.out.println("Please type a correct character");
+					}
+					if (opt == 1) {
+						String turn = turnControl.assignTurn(client);
+						System.out.println("The turn assignated to" + " " + client.getName() + " "
+								+ client.getSurnames() + " is: " + turn);
+					} else if (opt == 2) {
+						break;
+					}
+				}
+				break;
 			case (3):
-
+				String a = turnControl.attendTurn();
+				System.out.println(a);
+				break;
 			case (4):
-
+				System.out.println("Type the turn you will finalize.");
+				String turn = reader.next();
+				System.out.println("Choose an option.");
+				System.out.println("1) If the client was attended.");
+				System.out.println("2) If the client did not show up.");
+				int clientStatu = 0;
+				try {
+					clientStatu = reader.nextInt();
+					reader.nextLine();
+				} catch (InputMismatchException i) {
+					reader.nextLine();
+					System.out.println("Please type a correct character");
+				}
+				boolean clientStatus = false;
+				if (clientStatu == 1) {
+					clientStatus = true;
+				}
+				turnControl.finalizeTurn(turn, clientStatus);
+				break;
 			case (5):
-
-			case (6):
-
-			case (7):
-
-			case (8):
-
-			case (9):
 				System.out.println("Goodbye");
 				break;
 			default:

@@ -80,24 +80,34 @@ public class TurnControl {
 		if (currentLetter == 91) {
 			currentLetter = 65;
 		}
+
 		return currentTurn;
 
 	}
 
-	public Client attendTurn() {
-		Client c = null;
-		for (int i = 0; i < turns.size(); i++) {
+	public String attendTurn() {
+		String c = "";
+		boolean finded = false;
+		for (int i = 0; i < turns.size() && !finded; i++) {
 			if (turns.get(i).getStatus() == Turn.PENDING) {
-				c = turns.get(i).getClient();
+				c = turns.get(i).getIdentificator();
+				finded = true;
 				turns.get(i).setStatus(Turn.ATTENDING);
 			}
 		}
 		return c;
 	}
 
-	public void finalizeTurn(String turn) {
+	public void finalizeTurn(String turn, boolean was) {
 		for (int i = 0; i < turns.size(); i++) {
+			if (turns.get(i).getStatus() == Turn.ATTENDING && turns.get(i).getIdentificator().equals(turn)) {
+				if (was) {
+					turns.get(i).setStatus(Turn.ATTENDED);
+				} else {
+					turns.get(i).setStatus(Turn.NOT_PRESENTED);
 
+				}
+			}
 		}
 	}
 

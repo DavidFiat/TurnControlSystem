@@ -6,10 +6,10 @@ public class Client {
 	private String ID;
 	private String name;
 	private String surnames;
-	private int phone;
+	private String phone;
 	private String address;
 
-	public Client(String typeOfDocument, String iD, String name, String surnames, int phone, String address) {
+	public Client(String typeOfDocument, String iD, String name, String surnames, String phone, String address) {
 		super();
 		this.typeOfDocument = typeOfDocument;
 		ID = iD;
@@ -60,11 +60,11 @@ public class Client {
 		this.surnames = surnames;
 	}
 
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
