@@ -9,12 +9,10 @@ public class Turn {
 	private String identificator;
 	private int status;
 	private Client client;
-	private String time;
 
-	public Turn(String identificator, int status, String time, Client client) {
+	public Turn(String identificator, int status, Client client) {
 		this.identificator = identificator;
 		this.status = status;
-		this.time = time;
 		this.client = client;
 	}
 

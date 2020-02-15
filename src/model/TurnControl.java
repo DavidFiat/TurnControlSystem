@@ -90,7 +90,7 @@ public class TurnControl {
 		return hasTurn;
 	}
 
-	public String assignTurn(Client c, String time) {
+	public String assignTurn(Client c) {
 		String currentTurn = "";
 
 		if (!pendingTurn(c)) {
@@ -99,10 +99,10 @@ public class TurnControl {
 			} else {
 				currentTurn = "" + currentLetter + currentNumber;
 			}
-			Turn a = new Turn(currentTurn, Turn.PENDING, time, c);
+			Turn a = new Turn(currentTurn, Turn.PENDING, c);
 			turns.add(a);
-
 			currentNumber++;
+			
 			if (currentNumber == 100) {
 				currentNumber = 0;
 				currentLetter++;

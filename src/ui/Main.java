@@ -64,17 +64,16 @@ public class Main {
 				}
 				break;
 			case (2):
-				System.out.println("Write the actual time ( example: 12:24/23:12).");
-				String time = reader.nextLine();
 				System.out.println("Client´s type of document.");
 				String t = reader.nextLine();
 				System.out.println("Client´s number of document.");
 				String number = reader.nextLine();
 				Client client = turnControl.searchClient(number, t);
+				String turn = turnControl.assignTurn(client);
 				if (client == null) {
 					System.out.println("The client does not exist.");
 				} else {
-					if (turnControl.assignTurn(client, time).equals("")) {
+					if (turn.equals("")) {
 						System.out
 								.println("The client has been assigned to another turn and the turn is still pending.");
 						break;
@@ -95,7 +94,6 @@ public class Main {
 							System.out.println("Please type a correct character");
 						}
 						if (opt == 1) {
-							String turn = turnControl.assignTurn(client, time);
 							System.out.println("The turn assignated to" + " " + client.getName() + " "
 									+ client.getSurnames() + " is: " + turn);
 						} else if (opt == 2) {
@@ -110,7 +108,7 @@ public class Main {
 				break;
 			case (4):
 				System.out.println("Type the turn you will finalize.");
-				String turn = reader.next();
+				String turn1 = reader.next();
 				System.out.println("Choose an option.");
 				System.out.println("1) If the client was attended.");
 				System.out.println("2) If the client did not show up.");
@@ -126,7 +124,7 @@ public class Main {
 				if (clientStatu == 1) {
 					clientStatus = true;
 				}
-				turnControl.finalizeTurn(turn, clientStatus);
+				turnControl.finalizeTurn(turn1, clientStatus);
 				break;
 			case (5):
 				System.out.println("Goodbye");
