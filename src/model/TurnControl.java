@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import customExceptions.IncorrectNameInputException;
+import customExceptions.IncorrectSurnamesInputException;
 import customExceptions.RepeatedClientException;
 import customExceptions.RequiredFieldsException;
 
@@ -63,14 +65,53 @@ public class TurnControl {
 		this.currentNumber = currentNumber;
 	}
 
-	public boolean addClient(Client c) throws RepeatedClientException, RequiredFieldsException {
+	public boolean incorrectName(String name) {
+		boolean incorrect = false;
+		for (int i = 0; i < name.length(); i++) {
+			char c = name.charAt(i);
+			String a = "" + c;
+			try {
+				Integer.parseInt(a);
+				incorrect = true;
+
+			} catch (NumberFormatException excepcion) {
+			}
+		}
+		return incorrect;
+
+	}
+
+	public boolean incorrectSurname(String surname) {
+		boolean incorrect = false;
+		for (int i = 0; i < surname.length(); i++) {
+			char c = surname.charAt(i);
+			String a = "" + c;
+			try {
+				Integer.parseInt(a);
+				incorrect = true;
+
+			} catch (NumberFormatException excepcion) {
+			}
+		}
+		return incorrect;
+
+	}
+
+	public boolean addClient(Client c) throws RepeatedClientException, RequiredFieldsException,
+			IncorrectNameInputException, IncorrectSurnamesInputException {
 		boolean added = false;
 		if ((searchClient(c.getID(), c.getTypeOfDocument()) != null)) {
 			throw new RepeatedClientException(c.getName() + " " + c.getSurnames());
 		} else if (c.getName().equals("") || c.getSurnames().equals("") || c.getTypeOfDocument().equals("")
 				|| c.getID().equals("")) {
 			throw new RequiredFieldsException();
-		} else {
+		} else if (incorrectName(c.getName())) {
+			throw new IncorrectNameInputException();
+		} else if (incorrectSurname(c.getSurnames())) {
+			throw new IncorrectSurnamesInputException();
+		}
+
+		else {
 			clients.add(c);
 			added = true;
 		}
@@ -102,7 +143,7 @@ public class TurnControl {
 			Turn a = new Turn(currentTurn, Turn.PENDING, c);
 			turns.add(a);
 			currentNumber++;
-			
+
 			if (currentNumber == 100) {
 				currentNumber = 0;
 				currentLetter++;

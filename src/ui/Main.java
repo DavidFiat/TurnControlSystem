@@ -3,6 +3,8 @@ package ui;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import customExceptions.IncorrectNameInputException;
+import customExceptions.IncorrectSurnamesInputException;
 import customExceptions.RepeatedClientException;
 import customExceptions.RequiredFieldsException;
 import model.*;
@@ -50,13 +52,17 @@ public class Main {
 				String phone = reader.nextLine();
 				System.out.println("Address.");
 				String address = reader.nextLine();
+
 				Client c = new Client(type, ID, name, surnames, phone, address);
 				boolean registered = false;
+
 				try {
 					registered = turnControl.addClient(c);
-				} catch (RepeatedClientException | RequiredFieldsException e) {
+				} catch (RepeatedClientException | RequiredFieldsException | IncorrectNameInputException
+						| IncorrectSurnamesInputException e) {
 					System.out.println(e.getMessage());
 				}
+
 				if (registered) {
 					System.out.println("The client was added.");
 				} else {

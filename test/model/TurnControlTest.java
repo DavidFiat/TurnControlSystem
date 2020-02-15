@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import customExceptions.IncorrectNameInputException;
+import customExceptions.IncorrectSurnamesInputException;
 import customExceptions.RepeatedClientException;
 import customExceptions.RequiredFieldsException;
 
@@ -27,7 +29,7 @@ public class TurnControlTest {
 	}
 
 	@Test
-	public void add() throws RepeatedClientException, RequiredFieldsException {
+	public void add() throws RepeatedClientException, RequiredFieldsException, IncorrectNameInputException, IncorrectSurnamesInputException {
 		setup1();
 		assertTrue(turnControlTest.addClient(a));
 		assertTrue(turnControlTest.addClient(b));
@@ -56,14 +58,14 @@ public class TurnControlTest {
 	}
 
 	@Test
-	public void compareSize() throws RepeatedClientException, RequiredFieldsException {
+	public void compareSize() throws RepeatedClientException, RequiredFieldsException, IncorrectNameInputException, IncorrectSurnamesInputException {
 		add();
 		assertTrue(turnControlTest.getClients().size() == 5);
 
 	}
 
 	@Test
-	public void searchTest() throws RepeatedClientException, RequiredFieldsException {
+	public void searchTest() throws RepeatedClientException, RequiredFieldsException, IncorrectNameInputException, IncorrectSurnamesInputException {
 		add();
 		Client g = turnControlTest.getClients().get(0);
 		Client s = turnControlTest.searchClient("1005977", "CC");
@@ -75,7 +77,7 @@ public class TurnControlTest {
 	}
 
 	@Test
-	public void assignTurnTest() throws RepeatedClientException, RequiredFieldsException {
+	public void assignTurnTest() throws RepeatedClientException, RequiredFieldsException, IncorrectNameInputException, IncorrectSurnamesInputException {
 		add();
 		assertTrue(turnControlTest.assignTurn(turnControlTest.getClients().get(0)).equals("A00"));
 		turnControlTest.setCurrentLetter((char) 68);
